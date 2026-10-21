@@ -1,0 +1,116 @@
+const firstBtn = document.querySelector('#firstBtn');
+const secondBtn = document.querySelector('#secondBtn');
+const title = document.querySelector('#title');
+const logo = document.querySelector('#logo');
+// form
+const myForm = document.querySelector('#myForm');
+const userNameInput = document.querySelector('#userName');
+const userEmail = document.querySelector('#userEmail');
+const eta = document.querySelector('#eta');
+const userMessage = document.querySelector('#userMessage');
+const course = document.querySelector('#course');
+const submitData = document.querySelector('#submitDate');
+const fullTime = document.querySelector('#fullTime');
+const partTime = document.querySelector('#partTime');
+const serale = document.querySelector('#serale');
+const nameError = document.querySelector('#nameError');
+const emailError = document.querySelector('#emailError');
+const selectError = document.querySelector('#selectError');
+const checkError = document.querySelector('#checkError');
+
+// Oggetto per impacchettare i dati del form
+const userData = {
+	userName: '',
+	userEmail: '',
+	userAge: 0,
+	userMessage: '',
+	userCourse: '',
+	userDate: '',
+	userFrequency: [],
+};
+
+firstBtn.addEventListener('click', (e) => {
+	console.log(e);
+	console.log(e.type);
+	console.log(e.target);
+	console.log(e.target.id);
+	console.log(e.target.type);
+	console.log('Button cliccato!');
+	if (secondBtn.getAttribute('disabled')) {
+		secondBtn.removeAttribute('disabled');
+	}
+});
+
+secondBtn.addEventListener('click', () => {
+	console.log('Non puoi cliccarmi più!');
+	secondBtn.setAttribute('disabled', true);
+});
+
+title.addEventListener('click', (e) => {
+	console.log(`Hai cliccato su ${e.target.id}`);
+});
+
+logo.addEventListener('click', (e) => {
+	logo.classList.toggle('big');
+});
+
+userNameInput.addEventListener('blur', (e) => {
+	if (userNameInput.value === '') {
+		nameError.textContent = 'Compilare il campo nome completo!';
+	} else {
+		nameError.textContent = '';
+	}
+});
+
+userEmail.addEventListener('blur', (e) => {
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+	if (userEmail.value === '') {
+		emailError.textContent = 'Compilare il campo email!';
+	} else if (!emailRegex.test(userEmail.value)) {
+		emailError.textContent = 'Inserire una email valida!';
+	} else {
+		emailError.textContent = '';
+	}
+});
+
+course.addEventListener('blur', (e) => {
+    if (course.value === '') {
+        selectError.textContent = 'Indicare il corso scelto';
+    } else {
+        selectError.textContent = '';
+    }
+})
+
+myForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+	if (!validForm()) {
+		return;
+	}
+	console.log('Form inviato!');
+	userData.userName = userNameInput.value.trim();
+	userData.userEmail = userEmail.value.trim();
+	userData.userAge = eta.value;
+	userData.userMessage = userMessage.value;
+	userData.userCourse = course.value;
+	userData.userDate = submitData.value;
+	if (fullTime.checked) {
+		userData.userFrequency.push(fullTime.value);
+	}
+	if (partTime.checked) {
+		userData.userFrequency.push(partTime.value);
+	}
+	if (serale.checked) {
+		userData.userFrequency.push(serale.value);
+	}
+	console.log(userData);
+});
+
+function validForm() {
+	if (!fullTime.checked && !partTime.checked && !serale.checked) {
+		checkError.textContent = 'Selezionare almeno una frequenza!';
+		return false;
+	} else {
+		checkError.textContent = '';
+	}
+	return true;
+}
