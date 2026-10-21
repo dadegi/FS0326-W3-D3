@@ -18,6 +18,11 @@ const emailError = document.querySelector('#emailError');
 const selectError = document.querySelector('#selectError');
 const checkError = document.querySelector('#checkError');
 
+// Event delegation
+const taskForm = document.querySelector('#taskForm');
+const newTask = document.querySelector('#newTask');
+const taskList = document.querySelector('#taskList');
+
 // Oggetto per impacchettare i dati del form
 const userData = {
 	userName: '',
@@ -28,6 +33,8 @@ const userData = {
 	userDate: '',
 	userFrequency: [],
 };
+
+const myElements = [];
 
 firstBtn.addEventListener('click', (e) => {
 	console.log(e);
@@ -74,12 +81,12 @@ userEmail.addEventListener('blur', (e) => {
 });
 
 course.addEventListener('blur', (e) => {
-    if (course.value === '') {
-        selectError.textContent = 'Indicare il corso scelto';
-    } else {
-        selectError.textContent = '';
-    }
-})
+	if (course.value === '') {
+		selectError.textContent = 'Indicare il corso scelto';
+	} else {
+		selectError.textContent = '';
+	}
+});
 
 myForm.addEventListener('submit', (e) => {
 	e.preventDefault();
@@ -114,3 +121,43 @@ function validForm() {
 	}
 	return true;
 }
+
+// Event delegation
+
+function createList() {
+	taskList.textContent = '';
+	if (myElements.length === 0) {
+		const newP = document.createElement('p');
+		newP.textContent = 'Non ci sono elementi';
+		taskList.appendChild(newP);
+		return;
+	}
+	myElements.forEach((element, index) => {
+		const newLi = document.createElement('li');
+		newLi.textContent = element;
+		const newBtn = document.createElement('button');
+		newBtn.setAttribute('type', 'button');
+		newBtn.setAttribute('id', index + 1);
+		newBtn.textContent = 'ELIMINA';
+		newLi.appendChild(newBtn);
+		taskList.appendChild(newLi);
+	});
+}
+
+createList();
+
+taskForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+	let task = newTask.value;
+	myElements.push(task);
+	createList();
+});
+
+taskList.addEventListener('click', (e) => {
+	e.preventDefault();
+	if (e.target.type === 'button') {
+		console.log(`Hai cliccato il button con id ${e.target.id}`);
+		myElements.splice(e.target.id - 1, 1);
+		createList();
+	}
+});
