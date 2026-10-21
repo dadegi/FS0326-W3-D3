@@ -110,6 +110,8 @@ myForm.addEventListener('submit', (e) => {
 		userData.userFrequency.push(serale.value);
 	}
 	console.log(userData);
+	localStorage.setItem('newUser', JSON.stringify(userData));
+	window.location.href = window.location.href + 'grazie.html'; // Redirect alla pagina grazie.html DOPO la compilazione e l'invio del form
 });
 
 function validForm() {
@@ -161,3 +163,27 @@ taskList.addEventListener('click', (e) => {
 		createList();
 	}
 });
+
+// BOM
+console.log(window.location.href);
+document.querySelector('#btnLink').addEventListener('click', (e) => {
+	e.preventDefault();
+	window.location.href = 'https://www.google.it/';
+});
+
+setTimeout(() => {
+	cLog();
+}, 2000);
+
+function cLog() {
+	console.log('appaio dopo due secondi');
+}
+
+let counter = 0
+const tic = setInterval(() => {
+    counter += 1;
+    if (counter === 10) {
+        clearInterval(tic);
+    }
+    console.log(`Numero ${counter}`);
+}, 1000);
