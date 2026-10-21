@@ -179,11 +179,18 @@ function cLog() {
 	console.log('appaio dopo due secondi');
 }
 
-let counter = 0
+let counter = 0;
 const tic = setInterval(() => {
-    counter += 1;
-    if (counter === 10) {
-        clearInterval(tic);
-    }
-    console.log(`Numero ${counter}`);
+	counter += 1;
+	if (counter === 10) {
+		clearInterval(tic);
+	}
+	console.log(`Numero ${counter}`);
 }, 1000);
+
+document.addEventListener('keydown', (e) => {
+	console.log(e.key);
+    if (e.key === 'Enter') {
+        console.log('Hai confermato l\'azione');
+    }
+});
